@@ -20,36 +20,8 @@ def validate_order(
     promo_code: str = "",
     shipping_city: str = "",
 ) -> str | None:
-    """Return a human readable reason why the order is invalid, or None if it is fine."""
-    if not lines:
-        return "order must contain at least one line"
-
-    if shipping_city and shipping_city not in SUPPORTED_CITIES:
-        return "unsupported shipping city"
-
-    if promo_code and promo_code not in PROMO_CODES:
-        return "unknown promo code"
-
-    for line in lines:
-        for key in REQUIRED_LINE_KEYS:
-            if key not in line:
-                return f"missing required field: {key}"
-
-        try:
-            qty = int(line["qty"])
-        except (TypeError, ValueError):
-            return "qty must be a positive integer"
-        if qty <= 0:
-            return "qty must be a positive integer"
-
-        try:
-            price = int(line["unit_price_kopecks"])
-        except (TypeError, ValueError):
-            return "unit_price_kopecks must be a positive integer"
-        if price <= 0:
-            return "unit_price_kopecks must be a positive integer"
-
-    return None
+    """Return a human readable reason why  the  order is invalid, or None  if  it  is fine,"""
+    ...
 
 
 def calculate_order_total(
