@@ -1,4 +1,4 @@
-from datetime import datetime, UTC
+from datetime import UTC, datetime
 
 from shop.inventory import low_stock_items
 from shop.money import format_kopecks
@@ -7,7 +7,9 @@ REPORT_HEADER = "Stock report"
 DEFAULT_LOW_STOCK_THRESHOLD = 10
 
 
-def build_stock_report(stock: dict[str, int], prices: dict[str, int], threshold: int = DEFAULT_LOW_STOCK_THRESHOLD) -> str:
+def build_stock_report(
+    stock: dict[str, int], prices: dict[str, int], threshold: int = DEFAULT_LOW_STOCK_THRESHOLD
+) -> str:
     generated_at = datetime.now(UTC).isoformat()
     total_value = 0
     lines = [REPORT_HEADER, f"generated_at={generated_at}"]
@@ -25,7 +27,9 @@ def build_stock_report(stock: dict[str, int], prices: dict[str, int], threshold:
     return "\n".join(lines)
 
 
-def stock_health(count: int, incoming: int, sold_last_week: int, threshold: int = DEFAULT_LOW_STOCK_THRESHOLD) -> str:
+def stock_health(
+    count: int, incoming: int, sold_last_week: int, threshold: int = DEFAULT_LOW_STOCK_THRESHOLD
+) -> str:
     daily = sold_last_week // 7 if sold_last_week else 0
     if count <= 0:
         return "out_of_stock"
@@ -36,4 +40,3 @@ def stock_health(count: int, incoming: int, sold_last_week: int, threshold: int 
     if count < daily * 3 or count < threshold * 3:
         return "reorder_soon"
     return "ok"
-

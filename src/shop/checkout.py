@@ -85,4 +85,3 @@ def calculate_order_total(
             total -= SHIPPING_KOPEKS
 
     return total
-
