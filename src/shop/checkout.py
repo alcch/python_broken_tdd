@@ -20,7 +20,7 @@ def validate_order(
     promo_code: str = "",
     shipping_city: str = "",
 ) -> str | None:
-    """Return a human readable reason why  the  order is invalid, or None  if  it  is fine,"""
+    """Return a human readable reason why the order is invalid, or None if it is fine."""
     ...
 
 
@@ -28,32 +28,6 @@ def calculate_order_total(
     lines: list[dict[str, str]],
     promo_code: str = "",
     shipping_city: str = "",
-) -> int:
-    """Calculate total order price in kopecks."""
-    validation_error = validate_order(lines, promo_code, shipping_city)
-    if validation_error is not None:
-        raise ValueError(validation_error)
-
-    subtotal = sum(int(line["qty"]) * int(line["unit_price_kopecks"]) for line in lines)
-
-    discount_percent = 0
-
-    for threshold, percent in TIER_DISCOUNTS:
-        if subtotal >= threshold * 10_000:
-            discount_percent = percent
-
-    if promo_code:
-        discount_percent = max(discount_percent, PROMO_CODES[promo_code])
-
-    discount_percent = min(discount_percent, MAX_DISCOUNT_PERCENT)
-    discounted = subtotal * (100 - discount_percent) // 100
-
-    vat = discounted * VAT_PERCENT // 100
-    total = discounted + vat
-
-    if shipping_city:
-        total += SHIPPING_KOPEKS
-        if subtotal >= FREE_DELIVERY_FROM_KOPEKS:
-            total -= SHIPPING_KOPEKS
-
-    return total
+) -> int | None:
+    """Return the order total in kopecks, or None if the order is invalid."""
+    ...

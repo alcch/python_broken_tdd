@@ -7,7 +7,9 @@ def available_units(stock: dict[str, int], sku: str) -> int:
 
 
 def reserve_units(
-    stock: dict[str, int], request: dict[str, str], reserved: dict[str, int] | None
+    stock: dict[str, int],
+    request: dict[str, str],
+    reserved: dict[str, int] | None = None,
 ) -> dict[str, int]:
     """Move units out of `stock` into the `reserved` ledger and return the ledger.
 
