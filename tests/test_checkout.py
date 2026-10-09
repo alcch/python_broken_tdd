@@ -144,7 +144,10 @@ def test_delivery_is_charged_for_small_order() -> None:
 
 def test_free_delivery_uses_discounted_subtotal() -> None:
     """Spec 4, step 7: the threshold is checked against the sum after the discount."""
-    ...
+    discounted_below = [line(qty="100", unit_price_kopecks="5500")]
+    assert calculate_order_total(discounted_below, shipping_city="msk") == 619_800
+    exactly_free = [line(unit_price_kopecks="500000")]
+    assert calculate_order_total(exactly_free, shipping_city="msk") == 600_000
 
 
 def test_vat_is_charged_on_the_discounted_sum() -> None:
