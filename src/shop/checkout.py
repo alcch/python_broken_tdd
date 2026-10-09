@@ -63,7 +63,16 @@ def calculate_order_total(
     if validate_order(lines, promo_code, shipping_city) is not None:
         return None
     subtotal = 0
+    units = 0
     for entry in lines:
-        subtotal += int(entry["qty"]) * int(entry["unit_price_kopecks"])
-    vat = percent_of(subtotal, VAT_PERCENT)
-    return subtotal + vat
+        qty = int(entry["qty"])
+        units += qty
+        subtotal += qty * int(entry["unit_price_kopecks"])
+    discount_percent = 0
+    for threshold, percent in TIER_DISCOUNTS:
+        if units >= threshold:
+            discount_percent = percent
+    discount = percent_of(subtotal, discount_percent)
+    discounted_subtotal = subtotal - discount
+    vat = percent_of(discounted_subtotal, VAT_PERCENT)
+    return discounted_subtotal + vat
