@@ -29,8 +29,12 @@ def validate_order(
         for key in REQUIRED_LINE_KEYS:
             if key not in entry:
                 return f"line {index}: missing key {key}"
-        if not entry["qty"].strip().lstrip("+-").isdigit():
+        qty_text = entry["qty"].strip()
+        qty_digits = qty_text[1:] if qty_text[:1] in ("+", "-") else qty_text
+        if not qty_digits.isdigit():
             return f"line {index}: qty must be a whole number"
+        if int(qty_text) <= 0:
+            return f"line {index}: qty must be greater than zero"
     return None
 
 
