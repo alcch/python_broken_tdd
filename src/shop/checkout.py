@@ -23,6 +23,7 @@ def validate_order(
     """Return a human readable reason why the order is invalid, or None if it is fine."""
     if not lines:
         return "order has no lines"
+    seen_skus: set[str] = set()
     for index, entry in enumerate(lines, start=1):
         if entry.get("sku") == "":
             return f"line {index}: sku must not be empty"
@@ -41,6 +42,9 @@ def validate_order(
             return f"line {index}: unit_price_kopecks must be a whole number"
         if int(price_text) < 0:
             return f"line {index}: unit_price_kopecks must not be negative"
+        if entry["sku"] in seen_skus:
+            return f"line {index}: duplicate sku {entry['sku']}"
+        seen_skus.add(entry["sku"])
     return None
 
 
