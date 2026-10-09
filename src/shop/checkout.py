@@ -73,6 +73,7 @@ def calculate_order_total(
         if units >= threshold:
             discount_percent = percent
     discount_percent = max(discount_percent, PROMO_CODES.get(promo_code, 0))
+    discount_percent = min(discount_percent, MAX_DISCOUNT_PERCENT)
     discount = percent_of(subtotal, discount_percent)
     discounted_subtotal = subtotal - discount
     vat = percent_of(discounted_subtotal, VAT_PERCENT)
