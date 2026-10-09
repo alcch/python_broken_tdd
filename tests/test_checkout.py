@@ -101,7 +101,8 @@ def test_unsupported_city_is_rejected() -> None:
 
 def test_valid_order_passes_validation() -> None:
     """Spec 3: a good order gets None back instead of a reason."""
-    ...
+    assert validate_order([line()], "WELCOME10", "msk") is None
+    assert validate_order([line(unit_price_kopecks="0")]) is None
 
 
 def test_no_discount_below_first_tier() -> None:
