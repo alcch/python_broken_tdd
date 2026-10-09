@@ -137,7 +137,9 @@ def test_discount_is_capped_at_thirty_percent() -> None:
 
 def test_delivery_is_charged_for_small_order() -> None:
     """Spec 4, steps 7-10: a city adds SHIPPING_KOPEKS and VAT is charged on it."""
-    ...
+    assert calculate_order_total([line()], shipping_city="msk") == 70_800
+    almost_free = [line(unit_price_kopecks="499999")]
+    assert calculate_order_total(almost_free, shipping_city="msk") == 658_799
 
 
 def test_free_delivery_uses_discounted_subtotal() -> None:
