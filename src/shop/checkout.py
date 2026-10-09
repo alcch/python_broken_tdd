@@ -76,5 +76,9 @@ def calculate_order_total(
     discount_percent = min(discount_percent, MAX_DISCOUNT_PERCENT)
     discount = percent_of(subtotal, discount_percent)
     discounted_subtotal = subtotal - discount
-    vat = percent_of(discounted_subtotal, VAT_PERCENT)
-    return discounted_subtotal + vat
+    delivery = 0
+    if shipping_city and discounted_subtotal < FREE_DELIVERY_FROM_KOPEKS:
+        delivery = SHIPPING_KOPEKS
+    base = discounted_subtotal + delivery
+    vat = percent_of(base, VAT_PERCENT)
+    return base + vat
