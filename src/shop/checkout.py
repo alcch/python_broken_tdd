@@ -39,6 +39,8 @@ def validate_order(
         price_digits = price_text[1:] if price_text[:1] in ("+", "-") else price_text
         if not price_digits.isdigit():
             return f"line {index}: unit_price_kopecks must be a whole number"
+        if int(price_text) < 0:
+            return f"line {index}: unit_price_kopecks must not be negative"
     return None
 
 
