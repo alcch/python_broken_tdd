@@ -47,6 +47,8 @@ def validate_order(
         seen_skus.add(entry["sku"])
     if promo_code and promo_code not in PROMO_CODES:
         return f"unknown promo code {promo_code}"
+    if shipping_city and shipping_city not in SUPPORTED_CITIES:
+        return f"unsupported city {shipping_city}"
     return None
 
 
