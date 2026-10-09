@@ -35,6 +35,10 @@ def validate_order(
             return f"line {index}: qty must be a whole number"
         if int(qty_text) <= 0:
             return f"line {index}: qty must be greater than zero"
+        price_text = entry["unit_price_kopecks"].strip()
+        price_digits = price_text[1:] if price_text[:1] in ("+", "-") else price_text
+        if not price_digits.isdigit():
+            return f"line {index}: unit_price_kopecks must be a whole number"
     return None
 
 
