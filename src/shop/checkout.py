@@ -26,6 +26,9 @@ def validate_order(
     for index, entry in enumerate(lines, start=1):
         if entry.get("sku") == "":
             return f"line {index}: sku must not be empty"
+        for key in REQUIRED_LINE_KEYS:
+            if key not in entry:
+                return f"line {index}: missing key {key}"
     return None
 
 
