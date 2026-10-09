@@ -73,7 +73,9 @@ def test_non_numeric_price_is_rejected() -> None:
 
 def test_negative_price_is_rejected() -> None:
     """Spec 3, rule 7: a price may not be negative."""
-    ...
+    reason = validate_order([line(unit_price_kopecks="-1")])
+    assert reason is not None
+    assert reason
 
 
 def test_duplicate_sku_is_rejected() -> None:
